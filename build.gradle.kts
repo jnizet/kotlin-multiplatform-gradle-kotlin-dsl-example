@@ -3,18 +3,15 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.71")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 }
+// apply the plugins on the child projects from here so that the extensions, configurations etc. that they define is
+// available in a type-safe, discoverable way from the child projects build scripts.
 
-apply(plugin = "kotlin-platform-common")
-
-repositories {
-    mavenCentral()
+project(":common") {
+    apply(plugin = "kotlin-platform-common")
 }
-
-dependencies {
-    val kotlinVersion = "1.2.71"
-    "compile"("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion")
-    "testCompile"("org.jetbrains.kotlin:kotlin-test-common:$kotlinVersion")
+project(":jvm") {
+    apply(plugin = "kotlin-platform-jvm")
 }
